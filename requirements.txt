@@ -1,0 +1,27 @@
+# NINJA VISION - Naruto Jutsu Simulator
+# Phase 0 dependency set (Python 3.10 / macOS x86_64)
+#
+# Install order matters. See README / Phase 0 report:
+#   1) pip install -U pip setuptools wheel
+#   2) pip install --no-deps mediapipe==0.10.14   <-- skips jax / jaxlib (~200 MB unused)
+#   3) pip install -r requirements.txt
+#
+# NOTE: mediapipe 0.10.18+ removed the legacy `mp.solutions` API, so 0.10.14 is pinned
+#       on purpose: it still ships mp.solutions.hands + drawing_utils.
+
+# --- core numerics -----------------------------------------------------------
+numpy==1.26.4            # MUST stay <2.0: mediapipe/opencv C-extensions are NumPy 1.x ABI
+
+# --- vision ----------------------------------------------------------------
+opencv-contrib-python==4.11.0.86   # 4.11: last stable line before the NumPy-2-only 5.0
+mediapipe==0.10.14                 # installed with --no-deps (see note above)
+
+# --- mediapipe's real runtime dependencies (jax/jaxlib intentionally omitted) --
+protobuf==4.25.3         # mediapipe 0.10.14 requires >=4.25.3,<5
+absl-py>=1.4,<3
+attrs>=23.1
+flatbuffers>=23.5.26
+sounddevice>=0.4.4       # mediapipe dep; Phase 5 mixes the cue loops through it
+
+# --- optional: offline graph PNG export (on-frame graphs use cv2 only) --------
+matplotlib==3.9.2
